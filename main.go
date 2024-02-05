@@ -19,14 +19,6 @@ func main() {
 
 	// Get the operation type from the command-line arguments
 	operationType := os.Args[1]
-
-	// Check if the operation type is "grayscale"
-	if operationType != "grayscale" {
-		fmt.Println("Aborting. Unknown operation type.")
-		os.Exit(1)
-	}
-
-	// Get the image file path from the command-line arguments
 	imageFilePath := os.Args[2]
 
 	// Check if the file exists
@@ -42,18 +34,25 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Convert the image to grayscale
-	grayImg := toGrayscale(img)
+	// Perform the operation based on the operation type
+	switch operationType {
+	case "grayscale":
+		// Convert the image to grayscale
+		grayImg := toGrayscale(img)
 
-	// Save the grayscale image to a new file
-	outputPath := getOutputPath(imageFilePath)
-	err = saveImage(outputPath, grayImg)
-	if err != nil {
-		fmt.Printf("Error saving grayscale image: %s\n", err)
+		// Save the grayscale image to a new file
+		outputPath := getOutputPath(imageFilePath)
+		err = saveImage(outputPath, grayImg)
+		if err != nil {
+			fmt.Printf("Error saving grayscale image: %s\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Grayscale image saved at: %s\n", outputPath)
+	default:
+		fmt.Printf("Error: Unknown operation type: %s\n", operationType)
 		os.Exit(1)
 	}
-
-	fmt.Printf("Grayscale image saved at: %s\n", outputPath)
 }
 
 func loadImage(filePath string) (image.Image, error) {

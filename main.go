@@ -112,8 +112,6 @@ func runImageOperation(operationType string, imageFilePath string) (image.Image,
 		fmt.Printf("Error: Unknown operation type: %s\n", operationType)
 		return nil, nil
 	}
-
-	return nil, nil
 }
 
 func resizeImage(img image.Image, width int) image.Image {

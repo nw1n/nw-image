@@ -39,13 +39,17 @@ func main() {
 	}
 
 	if isFolder {
+		fmt.Printf("Processing folder: %s\n", src)
+
 		files, err := filepath.Glob(filepath.Join(src, "*"))
 		if err != nil {
 			fmt.Printf("Error: %s\n", err)
 			os.Exit(1)
 		}
 
+		// print list of all files in folder
 		for _, file := range files {
+			fmt.Printf("Found file: %s\n", file)
 			if(!isFileImage(file)){
 				fmt.Printf("Skipping non-image file: %s\n", file)
 				continue
@@ -64,7 +68,7 @@ func runImageOperation(operationType string, imageFilePath string) (image.Image,
 	img, err := loadImage(imageFilePath)
 	if err != nil {
 		fmt.Printf("Error opening image: %s\n", err)
-		os.Exit(1)
+		return nil, err
 	}
 
 	switch operationType {
@@ -75,11 +79,11 @@ func runImageOperation(operationType string, imageFilePath string) (image.Image,
 		err = saveImage(outputPath, grayImg)
 		if err != nil {
 			fmt.Printf("Error saving grayscale image: %s\n", err)
-			os.Exit(1)
+			return nil, err
 		}
 
 		fmt.Printf("Grayscale image saved at: %s\n", outputPath)
-		os.Exit(0)
+		return grayImg, nil
 
 	case "resize":
 		width := 480
@@ -89,7 +93,7 @@ func runImageOperation(operationType string, imageFilePath string) (image.Image,
 
 			if width == 0 {
 				fmt.Printf("Error: Invalid width: %s\n", os.Args[3])
-				os.Exit(1)
+				return nil, nil
 			}
 		}
 		resizedImg := resizeImage(img, width)
@@ -98,15 +102,15 @@ func runImageOperation(operationType string, imageFilePath string) (image.Image,
 		err = saveImage(outputPath, resizedImg)
 		if err != nil {
 			fmt.Printf("Error saving resized image: %s\n", err)
-			os.Exit(1)
+			return nil, err
 		}
 
 		fmt.Printf("Resized image saved at: %s\n", outputPath)
-		os.Exit(0)
+		return resizedImg, nil
 
 	default:
 		fmt.Printf("Error: Unknown operation type: %s\n", operationType)
-		os.Exit(1)
+		return nil, nil
 	}
 
 	return nil, nil

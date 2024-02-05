@@ -20,13 +20,47 @@ func main() {
 	}
 
 	operationType := os.Args[1]
-	imageFilePath := os.Args[2]
+	src := os.Args[2]
 
-	if _, err := os.Stat(imageFilePath); os.IsNotExist(err) {
-		fmt.Printf("Error: File '%s' not found.\n", imageFilePath)
+	if _, err := os.Stat(src); os.IsNotExist(err) {
+		fmt.Printf("Error: File '%s' not found.\n", src)
 		os.Exit(1)
 	}
 
+	// check if src is folder
+	isFolder := false
+	if info, err := os.Stat(src); err == nil && info.IsDir() {
+		isFolder = true
+	}
+
+	if !isFolder {
+		fmt.Printf("Processing file: %s\n", src)
+		runImageOperation(operationType, src)
+	}
+
+	if isFolder {
+		files, err := filepath.Glob(filepath.Join(src, "*"))
+		if err != nil {
+			fmt.Printf("Error: %s\n", err)
+			os.Exit(1)
+		}
+
+		for _, file := range files {
+			if(!isFileImage(file)){
+				fmt.Printf("Skipping non-image file: %s\n", file)
+				continue
+			}
+			if(isFileAlreadyProcessed(file)){
+				fmt.Printf("Skipping already processed file: %s\n", file)
+				continue
+			}
+			fmt.Printf("Processing file: %s\n", file)
+			runImageOperation(operationType, file)
+		}
+	}
+}
+
+func runImageOperation(operationType string, imageFilePath string) (image.Image, error) {
 	img, err := loadImage(imageFilePath)
 	if err != nil {
 		fmt.Printf("Error opening image: %s\n", err)
@@ -74,6 +108,8 @@ func main() {
 		fmt.Printf("Error: Unknown operation type: %s\n", operationType)
 		os.Exit(1)
 	}
+
+	return nil, nil
 }
 
 func resizeImage(img image.Image, width int) image.Image {
@@ -112,6 +148,16 @@ func saveImage(filePath string, img image.Image) error {
 	}
 
 	return err
+}
+
+func isFileImage(filePath string) bool {
+	ext := strings.ToLower(filepath.Ext(filePath))
+	return ext == ".jpg" || ext == ".jpeg" || ext == ".png"
+}
+
+func isFileAlreadyProcessed(filePath string) bool {
+	// check if file has "_output" in its name
+	return strings.Contains(filepath.Base(filePath), "_output")
 }
 
 func toGrayscale(img image.Image) image.Image {

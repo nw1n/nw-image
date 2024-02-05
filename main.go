@@ -52,6 +52,7 @@ func main() {
 
 		fmt.Printf("Grayscale image saved at: %s\n", outputPath)
 		os.Exit(0)
+
 	case "resize":
 		// make the image smaller according to the given width given in 3rd argument
 		width := 480
@@ -75,7 +76,7 @@ func main() {
 		}
 
 		fmt.Printf("Resized image saved at: %s\n", outputPath)
-		os.Exit(0)	
+		os.Exit(0)
 
 	default:
 		fmt.Printf("Error: Unknown operation type: %s\n", operationType)
@@ -131,8 +132,8 @@ func getOutputPath(inputPath string) string {
 	fileName := filepath.Base(inputPath)
 	fileNameWithoutExt := strings.TrimSuffix(fileName, filepath.Ext(fileName))
 
-	// Create a new file name with "_grayscale" suffix
-	outputFileName := fmt.Sprintf("%s_grayscale.jpg", fileNameWithoutExt)
+	// Create a new file name with "_transformed" suffix
+	outputFileName := fmt.Sprintf("%s_transformed.jpg", fileNameWithoutExt)
 
 	// Save the new file in the same directory as the original file
 	outputPath := filepath.Join(filepath.Dir(inputPath), outputFileName)

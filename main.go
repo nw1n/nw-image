@@ -5,6 +5,7 @@ import (
 	"image"
 	"image/color"
 	"image/jpeg"
+	"image/png"
 	"os"
 	"path/filepath"
 	"strings"
@@ -101,7 +102,16 @@ func saveImage(filePath string, img image.Image) error {
 	}
 	defer file.Close()
 
-	return jpeg.Encode(file, img, nil)
+	switch filepath.Ext(filePath) {
+	case ".jpg", ".jpeg":
+		err = jpeg.Encode(file, img, nil)
+	case ".png":
+		err = png.Encode(file, img)
+	default:
+		err = fmt.Errorf("Unsupported file format: %s", filepath.Ext(filePath))
+	}
+
+	return err
 }
 
 func toGrayscale(img image.Image) image.Image {
@@ -121,8 +131,9 @@ func toGrayscale(img image.Image) image.Image {
 func getOutputPath(inputPath string) string {
 	fileName := filepath.Base(inputPath)
 	fileNameWithoutExt := strings.TrimSuffix(fileName, filepath.Ext(fileName))
+	fileExt := filepath.Ext(fileName)
 
-	outputFileName := fmt.Sprintf("%s_transformed.jpg", fileNameWithoutExt)
+	outputFileName := fileNameWithoutExt + "_output" + fileExt
 
 	outputPath := filepath.Join(filepath.Dir(inputPath), outputFileName)
 

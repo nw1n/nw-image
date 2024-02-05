@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/nfnt/resize"
 )
 
 func main() {
@@ -49,10 +51,44 @@ func main() {
 		}
 
 		fmt.Printf("Grayscale image saved at: %s\n", outputPath)
+		os.Exit(0)
+	case "resize":
+		// make the image smaller according to the given width given in 3rd argument
+		width := 480
+		if len(os.Args) > 3 {
+			width = 0
+			fmt.Sscanf(os.Args[3], "%d", &width)
+
+			if width == 0 {
+				fmt.Printf("Error: Invalid width: %s\n", os.Args[3])
+				os.Exit(1)
+			}
+		}
+		resizedImg := resizeImage(img, width)
+
+		// Save the resized image to a new file
+		outputPath := getOutputPath(imageFilePath)
+		err = saveImage(outputPath, resizedImg)
+		if err != nil {
+			fmt.Printf("Error saving resized image: %s\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Resized image saved at: %s\n", outputPath)
+		os.Exit(0)	
+
 	default:
 		fmt.Printf("Error: Unknown operation type: %s\n", operationType)
 		os.Exit(1)
 	}
+}
+
+func resizeImage(img image.Image, width int) image.Image {
+	bounds := img.Bounds()
+	aspectRatio := float64(bounds.Dy()) / float64(bounds.Dx())
+	newHeight := int(float64(width) * aspectRatio)
+
+	return resize.Resize(uint(width), uint(newHeight), img, resize.Lanczos3)
 }
 
 func loadImage(filePath string) (image.Image, error) {

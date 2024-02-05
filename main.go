@@ -13,36 +13,29 @@ import (
 )
 
 func main() {
-	// Check if an image file is provided as an argument
 	if len(os.Args) < 3 {
 		fmt.Println("Aborting. Needs two arguemnts: type of operation and input file.")
 		os.Exit(1)
 	}
 
-	// Get the operation type from the command-line arguments
 	operationType := os.Args[1]
 	imageFilePath := os.Args[2]
 
-	// Check if the file exists
 	if _, err := os.Stat(imageFilePath); os.IsNotExist(err) {
 		fmt.Printf("Error: File '%s' not found.\n", imageFilePath)
 		os.Exit(1)
 	}
 
-	// Open the image file
 	img, err := loadImage(imageFilePath)
 	if err != nil {
 		fmt.Printf("Error opening image: %s\n", err)
 		os.Exit(1)
 	}
 
-	// Perform the operation based on the operation type
 	switch operationType {
 	case "grayscale":
-		// Convert the image to grayscale
 		grayImg := toGrayscale(img)
 
-		// Save the grayscale image to a new file
 		outputPath := getOutputPath(imageFilePath)
 		err = saveImage(outputPath, grayImg)
 		if err != nil {
@@ -54,7 +47,6 @@ func main() {
 		os.Exit(0)
 
 	case "resize":
-		// make the image smaller according to the given width given in 3rd argument
 		width := 480
 		if len(os.Args) > 3 {
 			width = 0
@@ -67,7 +59,6 @@ func main() {
 		}
 		resizedImg := resizeImage(img, width)
 
-		// Save the resized image to a new file
 		outputPath := getOutputPath(imageFilePath)
 		err = saveImage(outputPath, resizedImg)
 		if err != nil {
@@ -128,14 +119,11 @@ func toGrayscale(img image.Image) image.Image {
 }
 
 func getOutputPath(inputPath string) string {
-	// Extract file name and extension
 	fileName := filepath.Base(inputPath)
 	fileNameWithoutExt := strings.TrimSuffix(fileName, filepath.Ext(fileName))
 
-	// Create a new file name with "_transformed" suffix
 	outputFileName := fmt.Sprintf("%s_transformed.jpg", fileNameWithoutExt)
 
-	// Save the new file in the same directory as the original file
 	outputPath := filepath.Join(filepath.Dir(inputPath), outputFileName)
 
 	return outputPath

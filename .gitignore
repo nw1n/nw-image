@@ -1,0 +1,44 @@
+tmp
+
+# Compiled binary files
+*.exe
+*.out
+*.dll
+*.dylib
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (created by 'go get')
+/vendor/
+/go.sum
+
+# Compiled Object files, Static and Dynamic libs
+*.o
+*.a
+*.so
+
+# Output directories
+/dist/
+/bin/*
+/release/
+!/bin/.gitkeep
+
+# Temporary files
+*.tmp
+*.log
+*.swp
+
+# IDE-specific files and directories
+.idea/
+.vscode/
+
+# Environment-specific files
+.env
+
+# macOS-specific files
+.DS_Store
+
+# Windows-specific files
+Thumbs.db
+desktop.ini

@@ -1,11 +1,11 @@
-# NW-IMAGE CLI tool
+# W1 IMAGE CLI tool
 
 Helper tool for handy simple image transformations.
 Supports jpg and png.
 
 Build Command:
 
-`go build -o ./bin/nw-image`
+`go build -o ./bin/w1-image`
 
 Dev command (grayscale example):
 
@@ -13,6 +13,6 @@ Dev command (grayscale example):
 
 ## Specific commands (from binary)
 
-`nw-image grayscale ./tmp/example.jpg`
+`w1-image grayscale ./tmp/example.jpg`
 
-`nw-image resize ./tmp/example.jpg 240`
+`w1-image resize ./tmp/example.jpg 240`

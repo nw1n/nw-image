@@ -1,4 +1,4 @@
-module nw-image
+module w1-image
 
 go 1.21.3
 

@@ -1,6 +1,7 @@
-# README BLACKNWHITEIZER
+# NW-IMAGE CLI tool
 
-Trasform image to grayscale.
+Helper tool for handy simple image transformations.
+Supports jpg and png.
 
 Build Command:
 go build -o ./bin/nw-image
@@ -8,9 +9,7 @@ go build -o ./bin/nw-image
 Dev command (grayscale example):
 go run . grayscale ./tmp/example.jpg
 
-Run From System Path with binary (grayscale example):
+## Specific commands (from binary)
+
 nw-image grayscale ./tmp/example.jpg
-
-## Specific commands
-
 nw-image resize ./tmp/example.jpg 240

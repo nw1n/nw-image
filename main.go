@@ -12,13 +12,22 @@ import (
 
 func main() {
 	// Check if an image file is provided as an argument
-	if len(os.Args) < 2 {
-		fmt.Println("Usage: grayscale <image-file>")
+	if len(os.Args) < 3 {
+		fmt.Println("Aborting. Needs two arguemnts: type of operation and input file.")
+		os.Exit(1)
+	}
+
+	// Get the operation type from the command-line arguments
+	operationType := os.Args[1]
+
+	// Check if the operation type is "grayscale"
+	if operationType != "grayscale" {
+		fmt.Println("Aborting. Unknown operation type.")
 		os.Exit(1)
 	}
 
 	// Get the image file path from the command-line arguments
-	imageFilePath := os.Args[1]
+	imageFilePath := os.Args[2]
 
 	// Check if the file exists
 	if _, err := os.Stat(imageFilePath); os.IsNotExist(err) {

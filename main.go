@@ -12,7 +12,18 @@ import (
 	"strings"
 )
 
+// latestGitTag will be set at build time using -ldflags
+var latestGitTag string
+
+// Function to retrieve the latest tag
+func getLatestGitTag() string {
+    return latestGitTag
+}
+
 func main() {
+    latestGitTag := getLatestGitTag()
+    fmt.Println("Latest tag:", latestGitTag)
+
 	if len(os.Args) < 3 {
 		fmt.Println("Aborting. Needs two arguments: type of operation and input file.")
 		os.Exit(1)

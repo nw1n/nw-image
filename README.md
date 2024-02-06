@@ -5,7 +5,7 @@ Supports jpg and png.
 
 Build Command:
 
-`govvv build -o ./bin/w1-image`
+`go build -o ./bin/nw-image -ldflags "-X 'main.latestGitTag=$(git describe --tags --abbrev=0)'"`
 
 Dev command (grayscale example):
 

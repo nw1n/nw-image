@@ -3,29 +3,21 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/nfnt/resize"
 	"image"
 	"image/color"
 	"image/jpeg"
 	"image/png"
 	"os"
 	"path/filepath"
-	"runtime/debug"
 	"strings"
-
-	"github.com/nfnt/resize"
 )
 
 var (
-	version = "unknown"
-	commit  = "unknown"
-	date    = "unknown"
+	version = "v0.2.1"
 )
 
 func main() {
-	debug.ReadBuildInfo()
-	// print version from build info
-	fmt.Printf("Version: %s\n", version)
-
 	// Define a boolean flag "-v" for version
 	showVersion := flag.Bool("v", false, "Prints the version")
 
@@ -35,8 +27,6 @@ func main() {
 	// If -v flag is provided, print version and exit
 	if *showVersion {
 		fmt.Printf("Version: %s\n", version)
-		//fmt.Printf("Git commit hash: %s\n", commit)
-		//fmt.Printf("Built at: %s\n", date)
 		return
 	}
 

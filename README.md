@@ -5,7 +5,7 @@ Supports jpg and png.
 
 Build Command:
 
-`go build -o ./bin/nw-image -ldflags "-X 'main.latestGitTag=$(git describe --tags --abbrev=0)'"`
+`go build -o ./bin/w1-image -ldflags "-X 'main.latestGitTag=$(git describe --tags --abbrev=0)'"`
 
 Dev command (grayscale example):
 

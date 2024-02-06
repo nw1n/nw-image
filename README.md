@@ -5,7 +5,7 @@ Supports jpg and png.
 
 Build Command:
 
-`go build -o ./bin/w1-image`
+`govvv build -o ./bin/w1-image`
 
 Dev command (grayscale example):
 

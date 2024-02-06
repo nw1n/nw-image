@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"github.com/nfnt/resize"
 	"image"
@@ -13,23 +12,7 @@ import (
 	"strings"
 )
 
-var (
-	version = "v0.2.1"
-)
-
 func main() {
-	// Define a boolean flag "-v" for version
-	showVersion := flag.Bool("v", false, "Prints the version")
-
-	// Parse command line arguments
-	flag.Parse()
-
-	// If -v flag is provided, print version and exit
-	if *showVersion {
-		fmt.Printf("Version: %s\n", version)
-		return
-	}
-
 	if len(os.Args) < 3 {
 		fmt.Println("Aborting. Needs two arguments: type of operation and input file.")
 		os.Exit(1)

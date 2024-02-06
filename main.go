@@ -9,6 +9,7 @@ import (
 	"image/png"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"strings"
 
 	"github.com/nfnt/resize"
@@ -21,6 +22,10 @@ var (
 )
 
 func main() {
+	debug.ReadBuildInfo()
+	// print version from build info
+	fmt.Printf("Version: %s\n", version)
+
 	// Define a boolean flag "-v" for version
 	showVersion := flag.Bool("v", false, "Prints the version")
 

@@ -30,8 +30,8 @@ func main() {
 	// If -v flag is provided, print version and exit
 	if *showVersion {
 		fmt.Printf("Version: %s\n", version)
-		fmt.Printf("Git commit hash: %s\n", commit)
-		fmt.Printf("Built at: %s\n", date)
+		//fmt.Printf("Git commit hash: %s\n", commit)
+		//fmt.Printf("Built at: %s\n", date)
 		return
 	}
 

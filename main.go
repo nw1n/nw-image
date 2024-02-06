@@ -1,8 +1,8 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"github.com/nfnt/resize"
 	"image"
 	"image/color"
 	"image/jpeg"
@@ -10,6 +10,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/nfnt/resize"
 )
 
 // latestGitTag will be set at build time using -ldflags
@@ -21,8 +23,17 @@ func getLatestGitTag() string {
 }
 
 func main() {
-    latestGitTag := getLatestGitTag()
-    fmt.Println("Latest tag:", latestGitTag)
+	// Define a boolean flag "-v" for version
+	showVersion := flag.Bool("v", false, "Prints the version")
+
+	// Parse command line arguments
+	flag.Parse()
+
+	// If -v flag is provided, print version and exit
+	if *showVersion {
+		fmt.Println("Latest tag:", getLatestGitTag())
+		return
+	}
 
 	if len(os.Args) < 3 {
 		fmt.Println("Aborting. Needs two arguments: type of operation and input file.")

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"image"
 	"image/color"
@@ -13,9 +14,29 @@ import (
 	"github.com/nfnt/resize"
 )
 
+var (
+	version = "unknown"
+	commit  = "unknown"
+	date    = "unknown"
+)
+
 func main() {
+	// Define a boolean flag "-v" for version
+	showVersion := flag.Bool("v", false, "Prints the version")
+
+	// Parse command line arguments
+	flag.Parse()
+
+	// If -v flag is provided, print version and exit
+	if *showVersion {
+		fmt.Printf("Version: %s\n", version)
+		fmt.Printf("Git commit hash: %s\n", commit)
+		fmt.Printf("Built at: %s\n", date)
+		return
+	}
+
 	if len(os.Args) < 3 {
-		fmt.Println("Aborting. Needs two arguemnts: type of operation and input file.")
+		fmt.Println("Aborting. Needs two arguments: type of operation and input file.")
 		os.Exit(1)
 	}
 
@@ -50,11 +71,11 @@ func main() {
 		// print list of all files in folder
 		for _, file := range files {
 			fmt.Printf("Found file: %s\n", file)
-			if(!isFileImage(file)){
+			if !isFileImage(file) {
 				fmt.Printf("Skipping non-image file: %s\n", file)
 				continue
 			}
-			if(isFileAlreadyProcessed(file)){
+			if isFileAlreadyProcessed(file) {
 				fmt.Printf("Skipping already processed file: %s\n", file)
 				continue
 			}

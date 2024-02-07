@@ -11,7 +11,6 @@ func IsFileImage(filePath string) bool {
 }
 
 func IsFileAlreadyProcessed(filePath string) bool {
-	// check if file has "_output" in its name
 	return strings.Contains(filepath.Base(filePath), "_output")
 }
 
